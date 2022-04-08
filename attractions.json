@@ -1,0 +1,72 @@
+{
+    "attractions": [
+        {
+            "name": "Centre Georges-Pompidou",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Cité des Sciences et de l'Industrie",
+            "address": "Paris, France"
+        },
+        {
+            "name": "The Louvre",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Musée des Arts et Métiers",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Musée d'Orsay",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Musée de l'Orangerie",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Muséum national d'histoire naturelle",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Parc de la Villette",
+            "address": "Paris, France"
+        },
+        {
+            "name": "The Arc de Triomphe",
+            "address": "Paris, France"
+        },
+        {
+            "name": "The Conciergerie",
+            "address": "Paris, France"
+        },
+        {
+            "name": "The Eiffel Tower",
+            "address": "Paris, France"
+        },
+        {
+            "name": "The Grand Palais",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Les Invalides",
+            "address": "Paris, France"
+        },
+        {
+            "name": "The Palais Garnier",
+            "address": "Paris, France"
+        },
+        {
+            "name": "The Panthéon",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Place des Vosges",
+            "address": "Paris, France"
+        },
+        {
+            "name": "Place Vendôme",
+            "address": "Paris, France"
+        }
+    ]
+}
