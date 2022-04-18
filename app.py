@@ -1,4 +1,4 @@
-from flask import Flask, Response, jsonify, request
+from flask import Flask, jsonify, request
 import json
 import random
 import requests
@@ -20,7 +20,7 @@ def hello_world():
 
 @app.route("/randomitem")
 def randomItem():
-    with open('attractions.json', 'r') as file:
+    with open('./attractions.json', 'r') as file:
         data = file.read()
     attractions = json.loads(data)
     response = jsonify(attractions["attractions"][0])
@@ -31,7 +31,7 @@ def randomItem():
 
 @app.route("/randomsuggestions")
 def randomSuggestions():
-    with open('attractions.json', 'r') as file:
+    with open('./attractions.json', 'r') as file:
         data = file.read()
     attractions = json.loads(data)
     response = jsonify(random.sample(attractions["attractions"], 3))
@@ -41,12 +41,9 @@ def randomSuggestions():
 
 
 @app.route("/suggest")
-def text_search():
-    key = str(request.args['key'])
+def suggest():
     query = str(request.args['query'])
     exclude = str(request.args['exclude'])
-    if not validate(key):
-        return "unauthorized"
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     params = {"location": query,
               "key": API_KEY, "radius": 15000, "type": "tourist_attraction"}
@@ -54,7 +51,43 @@ def text_search():
     url = f"{url}{url_params}"
     payload = {}
     headers = {}
-    response = requests.request(
-        "GET", url, headers=headers, data=payload)
-    candidates = [p for p in response.json()["results"] if p["place_id"] not in exclude]
-    return {"results": candidates[0:3]}
+    data = requests.request("GET", url, headers=headers, data=payload)
+    candidates = [p for p in data.json()["results"]
+                  if p["place_id"] not in exclude]
+
+    response = jsonify(candidates[0:3])
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+
+@app.route("/citysearch")
+def citySearch():
+    query = str(request.args['query'])
+    url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
+    params = {"input": query,
+              "key": API_KEY, "types": "(cities)"}
+    url_params = urllib.parse.urlencode(params)
+    url = f"{url}{url_params}"
+    payload = {}
+    headers = {}
+    data = requests.request("GET", url, headers=headers,
+                            data=payload).json()["predictions"]
+    for item in data:
+        url = "https://maps.googleapis.com/maps/api/place/details/json?"
+        params = {"place_id": item["place_id"],
+                  "key": API_KEY, "fields": "geometry"}
+        url_params = urllib.parse.urlencode(params)
+        url = f"{url}{url_params}"
+        payload = {}
+        headers = {}
+        geometry = requests.request("GET", url, headers=headers,
+                                    data=payload).json()["result"]["geometry"]
+        item["lat"] = geometry["location"]["lat"]
+        item["long"] = geometry["location"]["lng"]
+        item["name"] = item["description"]
+
+    print(data)
+    response = jsonify(data)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
