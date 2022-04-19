@@ -3,10 +3,9 @@ import json
 import random
 import requests
 import urllib
+from keys import API_KEY
 
 app = Flask(__name__)
-
-API_KEY = "AIzaSyCw9ZcuO_ASGpg2nRcfFJOvVbI1ZHqVnYs"
 
 
 def validate(key):
