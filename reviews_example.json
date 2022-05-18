@@ -1,0 +1,51 @@
+{
+  "business_status": "OPERATIONAL",
+  "geometry": {
+    "location": {
+      "lat": 48.86262560000002,
+      "lng": 2.2968881
+    },
+    "viewport": {
+      "northeast": {
+        "lat": 48.8642536302915,
+        "lng": 2.297950530291502
+      },
+      "southwest": {
+        "lat": 48.8615556697085,
+        "lng": 2.295252569708498
+      }
+    }
+  },
+  "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+  "icon_background_color": "#7B9EB0",
+  "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+  "name": "Debilly Footbridge",
+  "opening_hours": {
+    "open_now": true
+  },
+  "photos": [
+    {
+      "height": 4000,
+      "html_attributions": [
+        "<a href=\"https://maps.google.com/maps/contrib/115485660678768601234\">Fred Booker</a>"
+      ],
+      "photo_reference": "Aap_uEAgDUK8b8SKwVyyv6L_abztVegOi9AT7Zh1TMhSf0RaZmGXWUz8bnCl2oLxlop0cGsEhl_DBD74hfLnm_1FD7gJ6bG93hrfMIO4vXk1J-b6eabEpemLED-XbwO-em5TLJBgMrStYeOWU06wO5jH5DWZcF316QYtbu0y4bvWDZAdiDE3",
+      "width": 6000
+    }
+  ],
+  "place_id": "ChIJbWdK0eZv5kcROmLZY2qD4gk",
+  "plus_code": {
+    "compound_code": "V77W+3Q Paris, France",
+    "global_code": "8FW4V77W+3Q"
+  },
+  "rating": 4.6,
+  "reference": "ChIJbWdK0eZv5kcROmLZY2qD4gk",
+  "scope": "GOOGLE",
+  "types": [
+    "tourist_attraction",
+    "point_of_interest",
+    "establishment"
+  ],
+  "user_ratings_total": 2120,
+  "vicinity": "Passerelle Debilly, Paris"
+}
