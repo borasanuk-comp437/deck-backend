@@ -9,8 +9,7 @@ import engine
 
 app = Flask(__name__)
 
-types = ["bakery", "bar", "cafe", "casino", "museum", "night_club",
-         "park", "restaurant", "shopping_mall", "tourist_attraction", "zoo"]
+types = ["bar", "cafe", "museum", "park", "restaurant", "tourist_attraction"]
 
 
 def validate(key):
@@ -56,7 +55,7 @@ def simplesuggest():
     headers = {}
     data = requests.request("GET", url, headers=headers, data=payload)
     candidates = data.json()["results"]
-    response = jsonify(candidates[0:3])
+    response = jsonify(candidates[0:5])
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
@@ -104,26 +103,16 @@ def suggest():
     base = [base_id, base_text]
 
     candidates = []
+    print("nearby_search start")
     for t in types:
-        candidates_for_type = nearby_search(query, exclude, type=t)
-        candidates += candidates_for_type
+        candidates += nearby_search(query, exclude, type=t)
+    print("nearby_search end")
 
-    print("nearby_search:")
     candidates = [c["place_id"] for c in candidates]
     candidates = set(candidates)
-    print(candidates)
-    print()
-    print()
-    print()
+    print("place details start")
     candidates = [get_place_details(candidate) for candidate in candidates]
-    print("place details:")
-    print([c["name"] for c in candidates])
-    # print()
-    # print()
-    # print()
-    # candidates = filter_by_type(candidates, types)
-    # print("filter:")
-    # print([c["name"] for c in candidates])
+    print("place details end")
 
     embedded_candidates = []
     for candidate in candidates:
@@ -132,7 +121,7 @@ def suggest():
 
     recommendations = engine.get_recommendations(
         np.array(base), np.array(embedded_candidates))
-    recommendations = recommendations[:5, :]
+    recommendations = recommendations[:3, :]
 
     candidates = [c for c in candidates if c["place_id"]
                   in recommendations[:, 1]]
@@ -145,7 +134,7 @@ def suggest():
 def get_place_details(place_id):
     url = "https://maps.googleapis.com/maps/api/place/details/json?"
     params = {"key": API_KEY, "place_id": place_id,
-              #   "fields": "name,type,reviews" TODO: filter fields?
+              "fields": "place_id,name,type,reviews,vicinity,geometry,photos,rating,user_ratings_total,url"
               }
     url_params = urllib.parse.urlencode(params)
     url = f"{url}{url_params}"
@@ -169,13 +158,13 @@ def get_embedded_reviews(place):
 def nearby_search(query, exclude=[], type=""):
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
     params = {"location": query,
-              "key": API_KEY, "radius": 15000, "type": type}
+              "key": API_KEY, "radius": 10000, "type": type}
     url_params = urllib.parse.urlencode(params)
     url = f"{url}{url_params}"
     payload = {}
     headers = {}
     data = requests.request("GET", url, headers=headers, data=payload).json()
-    candidates = [p for p in data["results"][:5]
+    candidates = [p for p in data["results"][:4]
                   if p["place_id"] not in exclude]
     return candidates
 
