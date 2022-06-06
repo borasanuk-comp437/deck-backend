@@ -55,6 +55,7 @@ def simplesuggest():
     headers = {}
     data = requests.request("GET", url, headers=headers, data=payload)
     candidates = data.json()["results"]
+    candidates = [get_place_details(c["place_id"]) for c in candidates]
     response = jsonify(candidates[0:5])
     response.headers.add('Access-Control-Allow-Origin', '*')
 
